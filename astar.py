@@ -178,21 +178,43 @@ def main():
                 [1, 1, 3, 4, 5, 0, 5, 3, 2, 4],
                 [0, 4, 2, 5, 1, 3, 4, 5, 3, 4]
             ],
-            "start": (5, 1),
-            "end": (4, 4)
+            "start": (7, 3),
+            "end": (1, 4)
         }
     }
-    # ----------------------------------------------------------------------------------------- # Added a little menu for the user interaction
-    maze_num = int(input("Hello, please enter the desired maze number(1-5): "))
-
-    while(int(maze_num) not in [1,2,3,4,5]):
-        maze_num = int(input("Please enter the desired maze number: "))
+    # argument unpacking:
+    # determine number of command line arguments, if not present, show menus
+    # determine if command line arguments are ints and if they are in ranges 1-5 and 1-4
+    show_maze_menu = True
+    show_heuristic_menu = True
+    # initialize maze_num and heuristic_num
+    maze_num = None
+    heuristic_num = None
+    # check if more than 2 args and if the argument is a number
+    if len(sys.argv) >= 2 and sys.argv[1].isdigit():
+        maze_num = int(sys.argv[1])
+        # if the maze_num is a valid value, 
+        if maze_num in range(1,6):
+            show_maze_menu = False
+    # Run same check for arg 2, the heuristic
+    if len(sys.argv) >= 3 and sys.argv[2].isdigit():
+        heuristic_num = int(sys.argv[2])
+        # if the 
+        if heuristic_num in range(1,5):
+            show_heuristic_menu = False
     
-
-    print("These are the available heuristics to choose from:\n\n1: All zeros; for every node this just returns the value 0.\n2: The Manhattan distance\n3: A modified Manhattan distance\nH4: Manhattan distance with error\n")
-    heuristic_num = 0
-    while(int(heuristic_num) not in [1,2,3,4]):
-        heuristic_num = int(input("Please enter the desired heuristic number(1-4): \n"))
+    # ----------------------------------------------------------------------------------------- # Added a little menu for the user interaction
+    if show_maze_menu:
+        maze_num = int(input("Hello, please enter the desired maze number(1-5): "))
+    
+        while(int(maze_num) not in [1,2,3,4,5]):
+            maze_num = int(input("Please enter the desired maze number: "))
+    
+    if show_heuristic_menu:
+        print("These are the available heuristics to choose from:\n\n1: All zeros; for every node this just returns the value 0.\n2: The Manhattan distance\n3: A modified Manhattan distance\nH4: Manhattan distance with error\n")
+        heuristic_num = 0
+        while(int(heuristic_num) not in [1,2,3,4]):
+            heuristic_num = int(input("Please enter the desired heuristic number(1-4): \n"))
 
     selected = mazes[maze_num]
     selected_maze = selected["maze"]
