@@ -14,6 +14,7 @@ class Node():
     def __eq__(self, other):
         return self.position == other.position
 
+
 def astar(maze, start, end, heur):
     """Returns a list of tuples as a path from the given start to the given end in the given maze"""
 
@@ -270,7 +271,7 @@ def main():
             maze_num = int(input("Please enter the desired maze number: "))
     
     if show_heuristic_menu:
-        print("These are the available heuristics to choose from:\n\n1: All zeros; for every node this just returns the value 0.\n2: The Manhattan distance\n3: A modified Manhattan distance\nH4: Manhattan distance with error\n")
+        print("These are the available heuristics to choose from:\n\n1: All zeros; for every node this just returns the value 0.\n2: The Manhattan distance\n3: A modified Manhattan distance\n4: Manhattan distance with error\n")
         heuristic_num = 0
         while(int(heuristic_num) not in [1,2,3,4]):
             heuristic_num = int(input("Please enter the desired heuristic number(1-4): \n"))
