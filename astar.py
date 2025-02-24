@@ -14,7 +14,6 @@ class Node():
     def __eq__(self, other):
         return self.position == other.position
 
-
 def astar(maze, start, end, heur):
     """Returns a list of tuples as a path from the given start to the given end in the given maze"""
 
@@ -91,9 +90,15 @@ def astar(maze, start, end, heur):
                     continue
 
             # Create the f, g, and h values TODO: THIS IS WHERE WE WILL ADD THE DIFFERENT HEURISTICS FOR TASK 2
-
+            
             child.g = current_node.g + maze[child.position[0]][child.position[1]] #Task 1 asks to allow for multiple costs to be taken into consideration, so we update child.g to be the cost to get to the previous node plus the cost to reach child's position
-            child.h = abs(child.position[0] - end_node.position[0]) + abs(child.position[1] - end_node.position[1]) #Task 1 asks to use Manhattan distance, so I changed this heuristic to be manhattan rather than the original use of pythagorean theorum
+            # h changes depending on the heuristic passed:
+            if heur == 1:
+                child.h = 0
+            elif heur == 2:
+                child.h = abs(child.position[0] - end_node.position[0]) + abs(child.position[1] - end_node.position[1]) #Task 1 asks to use Manhattan distance, so I changed this heuristic to be manhattan rather than the original use of pythagorean theorum
+            elif heur == 3:
+                pass
             child.f = child.g + child.h
 
             # Child is already in the open list
