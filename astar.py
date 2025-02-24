@@ -85,10 +85,6 @@ def astar(maze, start, end, heur):
         for child in children:
 
             # Child is on the closed list
-            for closed_child in closed_list:
-                if child == closed_child:
-                    continue
-            
             if child in closed_list:
                 continue
             
