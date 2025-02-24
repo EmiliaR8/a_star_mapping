@@ -92,12 +92,26 @@ def astar(maze, start, end, heur):
             
             child.g = current_node.g + maze[child.position[0]][child.position[1]] #Task 1 asks to allow for multiple costs to be taken into consideration, so we update child.g to be the cost to get to the previous node plus the cost to reach child's position
             # h changes depending on the heuristic passed:
-            if heur == 1:
+            if heur == 1: # Use the basic all 0 heuristic
                 child.h = 0
             elif heur == 2:
                 child.h = abs(child.position[0] - end_node.position[0]) + abs(child.position[1] - end_node.position[1]) #Task 1 asks to use Manhattan distance, so I changed this heuristic to be manhattan rather than the original use of pythagorean theorum
-            elif heur == 3:
+            elif heur == 3: # Use special heuristic
                 pass
+            elif heur == 4:   # Use random error heuristic
+                # Calculate manhattan distance
+                child.h = abs(child.position[0] - end_node.position[0]) + abs(child.position[1] - end_node.position[1])
+                # get the random value
+                offset = random.randint(-2,3)
+                # exclude 0 so the values are -3,-2,-1 and 1,2,3
+                if offset <= 0:
+                    offset -= 1
+                # add offset to child.h
+                child.h += offset
+                # clamp to >= 0
+                if child.h < 0:
+                    child.h = 0
+            
             child.f = child.g + child.h
 
             # Child is already in the open list
@@ -254,6 +268,7 @@ def test1():
     
 
 if __name__ == '__main__':
+    random.seed(11)
     main() 
     
     #test1()
