@@ -97,7 +97,43 @@ def astar(maze, start, end, heur):
             elif heur == 2:
                 child.h = abs(child.position[0] - end_node.position[0]) + abs(child.position[1] - end_node.position[1]) #Task 1 asks to use Manhattan distance, so I changed this heuristic to be manhattan rather than the original use of pythagorean theorum
             elif heur == 3: # Use special heuristic
-                pass
+                maze_height = len(maze)
+                maze_width = len(maze[0])
+                start = [child.position[0], child.position[1]]
+                end = [end_node.position[0], end_node.position[1]]
+                # Order it so that start is in top left and end is in bottom right
+                if start[0] > end[0]:
+                    start[0],end[0] = end[0],start[0]
+                if start[1] > end[1]:
+                    start[1],end[1] = end[1],start[1]
+                # Adjust bounds to capture an extra row and col on each side
+                # exclude overruns
+                if start[0] != 0:
+                    start[0] -= 1
+                if start[1] != 0:
+                    start[1] -= 1
+                if end[0] != maze_height-1:
+                    end[0] += 1
+                if end[1] != maze_width-1:
+                    end[1] += 1
+                
+                # increment end by 1 for list slicing
+                end[0]+=1
+                end[1]+=1
+                # slice the maze between start and end
+                sliced_maze = list(row[start[1]:end[1]] for row in maze[start[0]:end[0]])
+                # create a set for all nonzeros in sliced maze
+                lim_set = set()
+                for row in sliced_maze:
+                    for num in row:
+                        if num != 0:
+                            lim_set.add(num)
+                min_score = min(lim_set)
+                
+                # calculate manhattan distance
+                child.h = abs(child.position[0] - end_node.position[0]) + abs(child.position[1] - end_node.position[1])
+                child.h *= min_score
+                
             elif heur == 4:   # Use random error heuristic
                 # Calculate manhattan distance
                 child.h = abs(child.position[0] - end_node.position[0]) + abs(child.position[1] - end_node.position[1])
