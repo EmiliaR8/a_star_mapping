@@ -88,7 +88,10 @@ def astar(maze, start, end, heur):
             for closed_child in closed_list:
                 if child == closed_child:
                     continue
-
+            
+            if child in closed_list:
+                continue
+            
             # Create the f, g, and h values TODO: THIS IS WHERE WE WILL ADD THE DIFFERENT HEURISTICS FOR TASK 2
             
             child.g = current_node.g + maze[child.position[0]][child.position[1]] #Task 1 asks to allow for multiple costs to be taken into consideration, so we update child.g to be the cost to get to the previous node plus the cost to reach child's position
@@ -102,9 +105,14 @@ def astar(maze, start, end, heur):
             child.f = child.g + child.h
 
             # Child is already in the open list
+            skip_iter = False
             for open_node in open_list:
                 if child == open_node and child.g > open_node.g:
-                    continue
+                    skip_iter = True
+                    break
+                
+            if skip_iter:
+                continue
 
             # Add the child to the open list
             open_list.append(child)
@@ -237,5 +245,19 @@ def main():
     print("The elapsed time was ", (end_time-start_time)*1000 ," milliseconds")
 
 
+def test1():
+    nodeList = []
+    for i in range(7):
+        nodeList.append(Node(None,(i,i)))
+    
+    for i in nodeList:
+        print(i.position)
+    
+    nodeComp = Node(None, (1,1))
+    print(nodeComp in nodeList)
+    
+
 if __name__ == '__main__':
     main() 
+    
+    #test1()
